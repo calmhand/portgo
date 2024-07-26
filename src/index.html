@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="./assets/css/output.css" rel="stylesheet">
+    </head>
+    <body class="bg-white">
+        <header class="border-b-2 border-black border-opacity-25">
+            <nav class="flex items-center justify-between p-4">
+                <button>
+                    <img src="./assets/icons/portgo-128.png"
+                         alt="Port Go Logo"
+                         height="72"
+                         width="72"
+                    />
+                </button>
+
+                <div class="flex items-center justify-end gap-4">
+                        <input class="py-2 px-8 bg-white border-2 text-center w-1/4 border-black rounded-full" placeholder="127.0.0.1"/>
+                        <input class="py-2 px-8 bg-white border-2 text-center border-black rounded-full" placeholder="Port Number"/>
+                        <a href="./AddPort.html" class="px-2">
+                            <img src="./assets/icons/add.png"
+                            alt="Add Button"
+                            height="32"
+                            width="32"
+                            />
+                        </a>
+                    <button class="">
+                        <img src="./assets/icons/settings.png"
+                             alt="Settings Button"
+                             height="32"
+                             width="32"
+                        />
+                    </button>
+                </div>
+            </nav>
+        </header>
+        
+        <section class="grid grid-cols-3 gap-4 p-8 overflow-y-auto" style="margin-bottom: 50px;">
+            <div class="flex flex-col border-2 rounded-lg border-black">
+                <div class="p-4">
+                    <h2>Name</h2>
+                    <span class="text-3xl text-center">:3000</span>
+                </div>
+                <div class="flex items-center justify-between gap-4 border-t-2 border-black">
+                    <button class="p-4">
+                        <img src="./assets/icons/star.png"
+                             alt="Star icon"
+                             height="24"
+                             width="24"
+                        />
+                    </button>
+                    <button>
+                        <img src="./assets/icons/play.png"
+                             alt="Play icon"
+                             height="24"
+                             width="24"
+                        />
+                    </button>                   
+                    <button class="p-4">
+                        <img src="./assets/icons/edit.png"
+                             alt="Edit icon"
+                             height="24"
+                             width="24"
+                        />
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <footer class="fixed bottom-0 w-full flex items-center justify-between p-4 border-t-2 border-black border-opacity-25">
+            <button class="flex items-center gap-2 text-xl">
+                <img src="./assets/icons/star-selected.png"
+                     alt="Star (filled) icon"
+                     height="24"
+                     width="24"
+                />
+                Show Favorites
+            </button>
+            <div class="flex gap-4">
+                <button>
+                    <img src="./assets/icons/upload.png"
+                         alt="Upload icon"
+                         height="32"
+                         width="32"
+                    />
+                </button>
+
+                <button>
+                    <img src="./assets/icons/save.png"
+                         alt="Save icon"
+                         height="32"
+                         width="32"
+                    />
+                </button>
+            </div>
+        </footer>
+    </body>
+    <script href="./scripts/main.js"></script>
+</html>

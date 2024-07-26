@@ -1,0 +1,15 @@
+{
+  "name": "portgo",
+  "version": "1.0.0",
+  "description": "Quickly access your live ports hassle free!",
+  "main": "./index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "css": "npx tailwindcss -i ./src/assets/css/main.css -o ./src/assets/css/output.css --watch"
+  },
+  "author": "calmhand",
+  "license": "ISC",
+  "devDependencies": {
+    "tailwindcss": "^3.4.7"
+  }
+}

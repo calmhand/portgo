@@ -1,0 +1,10 @@
+{
+    "manifest_version": 3,
+    "name": "PortGo",
+    "description": "Quickly open your live ports without hassle!",
+    "version": "1.0",
+    "action": {
+        "default_popup": "index.html",
+        "default_icon": "./assets/icons/portgo-128.png"
+    }
+}

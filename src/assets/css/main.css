@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'op-regular';
+    src: url('../fonts/OverpassMono-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'op-bold';
+    src: url('../fonts/OverpassMono-Bold.ttf') format('truetype');
+    font-weight: 800;
+    font-style: bold;
+}
+
+@font-face {
+    font-family: 'op-light';
+    src: url('../fonts/OverpassMono-Light.ttf') format('truetype');
+    font-weight: 200;
+    font-style: normal;
+}
+
+
+body {
+    margin: 0;
+    width: 800px;
+    height: 600px;
+    font-family: 'op-regular', sans-serif;
+}
+
+button {
+    transition: transform 0.4s ease-in-out;
+}
+
+button:hover {
+    transform: scale(0.85);
+}
