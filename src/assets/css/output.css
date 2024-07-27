@@ -562,10 +562,6 @@ video {
   bottom: 0px;
 }
 
-.m-2 {
-  margin: 0.5rem;
-}
-
 .inline {
   display: inline;
 }
@@ -578,12 +574,24 @@ video {
   display: grid;
 }
 
-.w-1\/4 {
-  width: 25%;
-}
-
 .w-full {
   width: 100%;
+}
+
+.basis-1\/4 {
+  flex-basis: 25%;
+}
+
+.basis-3\/4 {
+  flex-basis: 75%;
+}
+
+.basis-2\/5 {
+  flex-basis: 40%;
+}
+
+.basis-3\/5 {
+  flex-basis: 60%;
 }
 
 .grid-cols-3 {
@@ -594,12 +602,20 @@ video {
   flex-direction: column;
 }
 
+.items-start {
+  align-items: flex-start;
+}
+
 .items-center {
   align-items: center;
 }
 
 .justify-end {
   justify-content: flex-end;
+}
+
+.justify-center {
+  justify-content: center;
 }
 
 .justify-between {
@@ -612,6 +628,10 @@ video {
 
 .gap-4 {
   gap: 1rem;
+}
+
+.gap-8 {
+  gap: 2rem;
 }
 
 .overflow-y-auto {
@@ -647,9 +667,18 @@ video {
   --tw-border-opacity: 0.25;
 }
 
+.bg-green {
+  --tw-bg-opacity: 1;
+  background-color: rgb(39 96 69 / var(--tw-bg-opacity));
+}
+
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(242 236 227 / var(--tw-bg-opacity));
+}
+
+.p-2 {
+  padding: 0.5rem;
 }
 
 .p-4 {
@@ -660,8 +689,12 @@ video {
   padding: 2rem;
 }
 
-.p-2 {
-  padding: 0.5rem;
+.p-16 {
+  padding: 4rem;
+}
+
+.p-12 {
+  padding: 3rem;
 }
 
 .px-2 {
@@ -669,18 +702,33 @@ video {
   padding-right: 0.5rem;
 }
 
-.px-8 {
-  padding-left: 2rem;
-  padding-right: 2rem;
+.px-12 {
+  padding-left: 3rem;
+  padding-right: 3rem;
 }
 
-.py-2 {
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+.py-4 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.px-16 {
+  padding-left: 4rem;
+  padding-right: 4rem;
+}
+
+.px-24 {
+  padding-left: 6rem;
+  padding-right: 6rem;
 }
 
 .text-center {
   text-align: center;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
 }
 
 .text-3xl {
@@ -693,14 +741,9 @@ video {
   line-height: 1.75rem;
 }
 
-.text-4xl {
-  font-size: 2.25rem;
-  line-height: 2.5rem;
-}
-
-.text-2xl {
-  font-size: 1.5rem;
-  line-height: 2rem;
+.text-white {
+  --tw-text-opacity: 1;
+  color: rgb(242 236 227 / var(--tw-text-opacity));
 }
 
 @font-face {
@@ -740,10 +783,30 @@ body {
   font-family: 'op-regular', sans-serif;
 }
 
-button {
+button, a {
   transition: transform 0.4s ease-in-out;
 }
 
-button:hover {
+button:hover, a:hover {
   transform: scale(0.85);
+}
+
+/* Form Styles */
+
+input {
+  padding: 1rem;
+  border-radius: 4rem;
+  text-align: center;
+  font-size: 1rem;
+  /* 16px */
+  line-height: 1.5rem;
+  /* 24px */
+  color: #f2ece3;
+  width: 100%;
+  background-color: #1e1e1e;
+}
+
+label {
+  font-size: 1rem;
+  line-height: 1.5rem;
 }

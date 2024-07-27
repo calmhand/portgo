@@ -31,10 +31,27 @@ body {
     font-family: 'op-regular', sans-serif;
 }
 
-button {
+button, a {
     transition: transform 0.4s ease-in-out;
 }
 
-button:hover {
+button:hover, a:hover {
     transform: scale(0.85);
+}
+
+/* Form Styles */
+input {
+    padding: 1rem;
+    border-radius: 4rem; 
+    text-align: center;
+    font-size: 1rem; /* 16px */
+    line-height: 1.5rem; /* 24px */
+    color: #f2ece3;
+    width: 100%;
+    background-color: #1e1e1e;
+}
+
+label {
+    font-size: 1rem;
+    line-height: 1.5rem;
 }
