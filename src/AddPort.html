@@ -12,7 +12,7 @@
                     <h1 class="inline text-2xl text-bold">Create a new port</h1>
                 </div>
 
-                <a href="index.html">
+                <a href="popup.html">
                     <img src="./assets/icons/close.png"
                     alt="close icon"
                     height="32"
@@ -23,7 +23,7 @@
         </header>
 
         <section class="py-4 px-24">
-            <form class="flex justify-center gap-8" method="post" onsubmit="parseForm()">
+            <form id="add-port-form" class="flex justify-center gap-8" method="post">
                 <div class="flex flex-col items-start gap-4 basis-3/5">
                     <div class="w-full">
                         <label for="url">URL:</label><br>
@@ -52,5 +52,5 @@
             </form>
         </section>
     </body>
-    <script type="text/javascript" src="./scripts/formHandler.js" defer></script>
+    <script type="module" src="./formHandler.js" defer></script>
 </html>

@@ -3,8 +3,11 @@
     "name": "PortGo",
     "description": "Quickly open your live ports without hassle!",
     "version": "1.0",
+    "author": "52714929+calmhand@users.noreply.github.com",
     "action": {
-        "default_popup": "index.html",
+        "default_title": "PortGo",
+        "default_popup": "popup.html",
         "default_icon": "./assets/icons/portgo-128.png"
-    }
+    },
+    "permissions": ["activeTab", "scripting", "storage"]
 }
