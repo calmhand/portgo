@@ -6,6 +6,40 @@
         <link href="./assets/css/output.css" rel="stylesheet">
     </head>
     <body class="bg-white">
+        <div id="credits-container" class="hidden bg-black bg-opacity-50 backdrop-blur-md absolute h-full w-full z-10 text-white" style="margin-bottom: 50px;">
+            <div class="border-b-2 border-black border-opacity-25">
+                <div class="flex items-center justify-between p-8">
+                    <div class="flex items-center gap-4">
+                        <h1 class="inline text-2xl text-bold">PortGo</h1>
+                    </div>
+
+                    <button id="close-credits-btn">
+                        <img src="./assets/icons/close.png"
+                        alt="close icon"
+                        height="32"
+                        width="32"
+                        />
+                    </button>
+                </div>
+            </div>
+            <div class="py-4 px-12 text-lg flex flex-col items-center">
+                <div>
+                    <span class="text-sm text-black">v1.0</span>
+                    <p>This extension was made by me: calmhand (Johnny)</p>
+                    <p>I wanted a way to separate my local dev ports from my bookmarks bar so I just made this small extension in a weekend.</p><br>
+                    <a class="underline hover:animate-pulse" href="https://github.com/calmhand/portgo" target="_blank">Repo</a><br>
+                    <a class="underline hover:animate-pulse" href="https://github.com/calmhand" target="_blank">Github</a>
+                    <p>Visit my web design/development studio: <a  class="underline hover:animate-pulse" href="https://seven-nine.co" target="_blank">seven days. nine years.</a></p>
+                </div>
+
+                <img src="./assets/icons/portgo-256-black.png"
+                    alt="Port Go Logo"
+                    height="256"
+                    width="256"
+                />
+            </div>
+        </div>
+
         <div id="edit-container" class="hidden bg-black bg-opacity-65 backdrop-blur-md absolute h-full w-full z-10 text-white" style="margin-bottom: 50px;">
             <div class="border-b-2 border-black border-opacity-25">
                 <div class="flex items-center justify-between p-8">
@@ -56,7 +90,7 @@
 
         <header class="border-b-2 border-black border-opacity-25">
             <nav class="flex items-center justify-between p-4">
-                <button>
+                <button id="open-credits-btn">
                     <img src="./assets/icons/portgo-128.png"
                     alt="Port Go Logo"
                     height="72"
@@ -72,13 +106,6 @@
                         width="32"
                         />
                     </a>
-                    <button id="settings-btn">
-                        <img src="./assets/icons/settings.png"
-                        alt="Settings Button"
-                        height="32"
-                        width="32"
-                        />
-                    </button>
                 </div>
             </nav>
         </header>

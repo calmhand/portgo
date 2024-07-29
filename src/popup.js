@@ -1,15 +1,29 @@
 let favoritesVisible = false
 let editContainer = document.getElementById("edit-container")
+let creditsContainer = document.getElementById("credits-container")
 const settingsBtn = document.getElementById("settings-btn")
 const saveBtn = document.getElementById("save-btn")
 const uploadBtn = document.getElementById("upload-btn")
 const showFavsBtn = document.getElementById("show-favs-btn")
 const closeEditsBtn = document.getElementById("close-edits-btn")
+const openCreditsBtn = document.getElementById("open-credits-btn")
+const closeCreditsBtn = document.getElementById("close-credits-btn")
 const deletePortBtn = document.getElementById("deletePortBtn")
 
 addEventListener('DOMContentLoaded', () => {
     retrievePorts()
 
+
+    if(openCreditsBtn) {
+        openCreditsBtn.addEventListener("click", () => {
+            creditsContainer.style.display = "block";
+        })
+    }
+    if (closeCreditsBtn) {
+        closeCreditsBtn.addEventListener("click", () => {
+            creditsContainer.style.display = "none";
+        })
+    }
     if (closeEditsBtn) {
         closeEditsBtn.addEventListener("click", () => {
             editContainer.style.display = "none";
@@ -239,13 +253,9 @@ async function removePort(id) {
     let transaction = db.transaction(["pg1"], "readwrite").objectStore("pg1")
 
     let req = transaction.delete(id)
-    req.onsuccess = (event) => {
+    req.onsuccess = () => {
         window.location.reload()
     }
-}
-
-function showSettings() {
-    console.log("show settings")
 }
 
 async function showFavorites() {
