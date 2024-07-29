@@ -1,9 +1,12 @@
 let favoritesVisible = false
 let editContainer = document.getElementById("edit-container")
 let creditsContainer = document.getElementById("credits-container")
+let uploadContainer = document.getElementById("upload-container")
 let saveBtn = document.getElementById("save-btn")
 const settingsBtn = document.getElementById("settings-btn")
 const uploadBtn = document.getElementById("upload-btn")
+const submitUpload = document.getElementById("upload-submit-btn")
+const closeUploadBtn = document.getElementById("close-upload-btn")
 const showFavsBtn = document.getElementById("show-favs-btn")
 const closeEditsBtn = document.getElementById("close-edits-btn")
 const openCreditsBtn = document.getElementById("open-credits-btn")
@@ -23,6 +26,11 @@ addEventListener('DOMContentLoaded', () => {
             creditsContainer.style.display = "none";
         })
     }
+    if (closeUploadBtn) {
+        closeUploadBtn.addEventListener("click", () => {
+            uploadContainer.style.display = "none";
+        })
+    }
     if (closeEditsBtn) {
         closeEditsBtn.addEventListener("click", () => {
             editContainer.style.display = "none";
@@ -35,7 +43,13 @@ addEventListener('DOMContentLoaded', () => {
         saveBtn.addEventListener("click", save);
     }
     if (uploadBtn) {
-        uploadBtn.addEventListener("click", uploadBackup);
+        const form = document.getElementById('upload-form');
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevents the default form submission
+        });
+        uploadBtn.addEventListener("click", () => {
+            uploadBackup()
+        });
     }
     if (showFavsBtn) {
         showFavsBtn.addEventListener("click", () => {
@@ -49,7 +63,6 @@ addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-
 
 export async function openDB() {
     return new Promise((resolve, reject) => {
@@ -282,6 +295,25 @@ async function showFavorites() {
 
 function uploadBackup() {
     console.log("upload backup")
+    uploadContainer.style.display = "block";
+
+    submitUpload.addEventListener("click", async () => {
+        let ports = JSON.parse(document.getElementById("upload-text-area").value)
+
+        let db = await openDB()
+        let transaction = db.transaction(["pg1"], "readwrite").objectStore("pg1")
+
+        for (let port of ports) {
+            let req = transaction.add(port)
+            req.onsuccess = () => {}
+
+            req.onerror = (event) => {
+                console.error(`Error inserting data: ${event.target.error}`)
+            }
+        }
+        closeUploadBtn.click()
+        window.location.reload()
+    })
 }
 
 async function save() {
