@@ -2,8 +2,6 @@ let favoritesVisible = false
 let editContainer = document.getElementById("edit-container")
 let creditsContainer = document.getElementById("credits-container")
 let saveBtn = document.getElementById("save-btn")
-let date = Date.now().toString(16)
-saveBtn.download = date + "-PortGoDB.json"
 const settingsBtn = document.getElementById("settings-btn")
 const uploadBtn = document.getElementById("upload-btn")
 const showFavsBtn = document.getElementById("show-favs-btn")
@@ -15,7 +13,7 @@ const deletePortBtn = document.getElementById("deletePortBtn")
 addEventListener('DOMContentLoaded', () => {
     retrievePorts()
 
-    if(openCreditsBtn) {
+    if (openCreditsBtn) {
         openCreditsBtn.addEventListener("click", () => {
             creditsContainer.style.display = "block";
         })
@@ -295,6 +293,8 @@ async function save() {
 
     req.onsuccess = (event) => {
         let data = JSON.stringify(event.target.result)
+        let date = Date.now().toString(16)
+        saveBtn.download = date + "-PortGoDB.json"
         const blob = new Blob([data], { type: "application/json" });
         saveBtn.href = URL.createObjectURL(blob)
     }
