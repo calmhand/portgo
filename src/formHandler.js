@@ -32,6 +32,7 @@ async function submit() {
 
     req.onsuccess = () => {
         console.log("Port added.")
+        window.location.href = "popup.html"
     }
     req.onerror = (event) => {
         console.error(`Error inserting data: ${event.target.error}`)
