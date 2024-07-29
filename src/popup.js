@@ -1,3 +1,5 @@
+let favoritesVisible = false
+
 export async function openDB() {
     return new Promise((resolve, reject) => {
         const request = window.indexedDB.open("portGoDB");
@@ -100,8 +102,12 @@ function populate(ports) {
         return button;
     }
 
+    let portContainer = document.getElementById("port-container") 
+    while (portContainer.firstChild) {
+        portContainer.removeChild(portContainer.firstChild) 
+    }
+
     for (let port of ports) {
-        console.log(port)
         let container = document.createElement("div")
         container.className = "flex flex-col border-2 rounded-lg border-black"
 
@@ -135,16 +141,31 @@ function populate(ports) {
     } 
 }
 
-function go() {
-    
-}
-
 function showSettings() {
     console.log("show settings")
 }
 
-function showFavorites() {
-    console.log("show favs")
+async function showFavorites() {
+    let db = await openDB()
+    let transaction = db.transaction(["pg1"], "readonly").objectStore("pg1")
+
+    let req = transaction.getAll()
+
+    let bookmarks = []
+    req.onsuccess = (event) => {
+        for (let port of event.target.result) {
+            if (port.bookmarked === true) {
+                bookmarks.push(port)
+            }
+        }
+        let favsBtn = document.getElementById("show-favs-btn")
+        favsBtn.innerHTML = `<img src="./assets/icons/star.png" alt="Star icon" height="24" width="24">Show All`
+        populate(bookmarks)
+    }
+    
+    req.onerror = (event) => {
+        console.error(event.target.result)
+    }
 }
 
 function uploadBackup() {
@@ -172,7 +193,15 @@ addEventListener('DOMContentLoaded', () => {
         uploadBtn.addEventListener("click", uploadBackup);
     }
     if (showFavsBtn) {
-        showFavsBtn.addEventListener("click", showFavorites);
+        showFavsBtn.addEventListener("click", () => {
+            if (favoritesVisible) {
+                favoritesVisible = false
+                window.location.reload()
+            } else {
+                favoritesVisible = true
+                showFavorites()
+            }
+        });
     }
 });
 
