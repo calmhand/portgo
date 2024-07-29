@@ -5,6 +5,7 @@ const saveBtn = document.getElementById("save-btn")
 const uploadBtn = document.getElementById("upload-btn")
 const showFavsBtn = document.getElementById("show-favs-btn")
 const closeEditsBtn = document.getElementById("close-edits-btn")
+const deletePortBtn = document.getElementById("deletePortBtn")
 
 addEventListener('DOMContentLoaded', () => {
     retrievePorts()
@@ -14,7 +15,6 @@ addEventListener('DOMContentLoaded', () => {
             editContainer.style.display = "none";
         })
     }
-    
     if (settingsBtn) {
         settingsBtn.addEventListener("click", showSettings);
     }
@@ -187,6 +187,9 @@ function createBtn (path, alt, port) {
                 event.preventDefault();
                 updatePort(port.id);
             });
+            deletePortBtn.addEventListener("click", () => {
+                removePort(port.id)
+            })
         })
     }
 
@@ -229,6 +232,16 @@ async function updatePort(id) {
                 console.error(event.target.result);
             }
         }
+}
+
+async function removePort(id) {
+    let db = await openDB()
+    let transaction = db.transaction(["pg1"], "readwrite").objectStore("pg1")
+
+    let req = transaction.delete(id)
+    req.onsuccess = (event) => {
+        window.location.reload()
+    }
 }
 
 function showSettings() {
