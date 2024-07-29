@@ -38,73 +38,12 @@ async function retrievePorts() {
 }
 
 function populate(ports) {
-    const createBtn = (path, alt, port) => {
-        const button = document.createElement('button');
-        button.className = 'p-4';
-        button.id = alt + "-" + port.id
-        
-        if (alt === "Bookmark") {
-            button.addEventListener("click", async () => {
-                let db = await openDB()
-                let transaction = db.transaction(["pg1"], "readwrite").objectStore("pg1")
- 
-                if (port.bookmarked) {
-                    let req = transaction.get(port.id)
-                    req.onsuccess = (event) => {
-                        let payload = event.target.result
-                        payload.bookmarked = false
 
-                        let update = transaction.put(payload)
-                        update.onsuccess = (event) => {
-                            document.getElementById(alt + "-" + port.id).src = "./assets/icons/star.png"
-                            window.location.reload()
-                            console.log(event.target.result)
-                        }
-                    }
-                } else {
-                    let req = transaction.get(port.id)
-                    req.onsuccess = (event) => {
-                        let payload = event.target.result
-                        payload.bookmarked = true
-
-                        let update = transaction.put(payload)
-                        update.onsuccess = (event) => {
-                            document.getElementById(alt + "-" + port.id).src = "./assets/icons/star-selected.png"
-                            window.location.reload()
-                            console.log(event.target.result)
-                        }
-                    }
-
-                    req.onerror = (event) => {
-                        console.error(event.target.result)
-                    }
-                }
-            })
+    let portContainer = document.getElementById("port-container")
+    if (portContainer) {
+        while (portContainer.firstChild) {
+            portContainer.removeChild(portContainer.firstChild) 
         }
-
-        if (alt === "Go") {
-            button.addEventListener("click", () => {
-                window.open(port.url, "_blank").focus() 
-            })
-        }
-        
-        if (alt === "Edit") {
-            button.addEventListener("click", () => {})
-        }
-
-        const img = document.createElement('img');
-        img.src = path;
-        img.alt = alt;
-        img.height = 24;
-        img.width = 24;
-
-        button.appendChild(img);
-        return button;
-    }
-
-    let portContainer = document.getElementById("port-container") 
-    while (portContainer.firstChild) {
-        portContainer.removeChild(portContainer.firstChild) 
     }
 
     for (let port of ports) {
@@ -121,8 +60,12 @@ function populate(ports) {
         portNumber.innerHTML = port.port
         portNumber.className = "text-3xl text-center"
 
+        let portDesc = document.createElement("p")
+        portDesc.innerHTML = port.description
+
         nameContainer.appendChild(portName)
         nameContainer.appendChild(portNumber)
+        nameContainer.appendChild(portDesc)
 
         let btnContainer = document.createElement("div")
         btnContainer.className = "flex items-center justify-between gap-4 border-t-2 border-black"
@@ -137,8 +80,82 @@ function populate(ports) {
         container.appendChild(nameContainer)
         container.appendChild(btnContainer)
 
-        document.getElementById("port-container").appendChild(container)
+        if (portContainer) {
+            portContainer.appendChild(container)
+        }
     } 
+}
+
+function createBtn (path, alt, port) {
+    const button = document.createElement('button');
+    button.className = 'p-4';
+    button.id = alt + "-" + port.id
+    
+    if (alt === "Bookmark") {
+        button.addEventListener("click", async () => {
+            let db = await openDB()
+            let transaction = db.transaction(["pg1"], "readwrite").objectStore("pg1")
+
+            if (port.bookmarked) {
+                let req = transaction.get(port.id)
+                req.onsuccess = (event) => {
+                    let payload = event.target.result
+                    payload.bookmarked = false
+
+                    let update = transaction.put(payload)
+                    update.onsuccess = (event) => {
+                        document.getElementById(alt + "-" + port.id).src = "./assets/icons/star.png"
+                        window.location.reload()
+                        console.log(event.target.result)
+                    }
+                }
+            } else {
+                let req = transaction.get(port.id)
+                
+                req.onsuccess = (event) => {
+                    let payload = event.target.result
+                    payload.bookmarked = true
+
+                    let update = transaction.put(payload)
+                    update.onsuccess = (event) => {
+                        document.getElementById(alt + "-" + port.id).src = "./assets/icons/star-selected.png"
+                        window.location.reload()
+                        console.log(event.target.result)
+                    }
+                }
+
+                req.onerror = (event) => {
+                    console.error(event.target.result)
+                }
+            }
+        })
+    }
+
+    if (alt === "Go") {
+        button.addEventListener("click", () => {
+            window.open(port.url, "_blank").focus() 
+        })
+    }
+    
+    if (alt === "Edit") {
+        button.addEventListener("click", () => {
+            let editorContainer = document.getElementById("edit-container")
+            editorContainer.style.display = "block";
+            document.getElementById('edit-url').value = port.address
+            document.getElementById('edit-portNumber').value = port.port
+            document.getElementById('edit-portName').value = port.alias
+            document.getElementById('edit-portDescription').value = port.description
+        })
+    }
+
+    const img = document.createElement('img');
+    img.src = path;
+    img.alt = alt;
+    img.height = 24;
+    img.width = 24;
+
+    button.appendChild(img);
+    return button;
 }
 
 function showSettings() {
@@ -177,12 +194,20 @@ function save() {
 }
 
 addEventListener('DOMContentLoaded', () => {
-    const settingsBtn = document.getElementById("settings-btn");
-    const saveBtn = document.getElementById("save-btn");
-    const uploadBtn = document.getElementById("upload-btn");
-    const showFavsBtn = document.getElementById("show-favs-btn");
+    const settingsBtn = document.getElementById("settings-btn")
+    const saveBtn = document.getElementById("save-btn")
+    const uploadBtn = document.getElementById("upload-btn")
+    const showFavsBtn = document.getElementById("show-favs-btn")
+    const closeEditsBtn = document.getElementById("close-edits-btn")
     retrievePorts()
 
+    if (closeEditsBtn) {
+        closeEditsBtn.addEventListener("click", () => {
+            let editContainer = document.getElementById("edit-container")
+            editContainer.style.display = "none";
+        })
+    }
+    
     if (settingsBtn) {
         settingsBtn.addEventListener("click", showSettings);
     }

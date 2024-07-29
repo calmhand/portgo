@@ -22,6 +22,7 @@ async function submit() {
 
     let payload = {
         "id": id,
+        "address": url,
         "url": url + ":" + portNum,
         "port": portNum,
         "alias": portName,
