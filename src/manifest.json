@@ -9,5 +9,5 @@
         "default_popup": "popup.html",
         "default_icon": "./assets/icons/portgo-128.png"
     },
-    "permissions": ["activeTab", "scripting", "storage"]
+    "permissions": ["activeTab", "storage"]
 }

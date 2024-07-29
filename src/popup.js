@@ -1,8 +1,10 @@
 let favoritesVisible = false
 let editContainer = document.getElementById("edit-container")
 let creditsContainer = document.getElementById("credits-container")
+let saveBtn = document.getElementById("save-btn")
+let date = Date.now().toString(16)
+saveBtn.download = date + "-PortGoDB.json"
 const settingsBtn = document.getElementById("settings-btn")
-const saveBtn = document.getElementById("save-btn")
 const uploadBtn = document.getElementById("upload-btn")
 const showFavsBtn = document.getElementById("show-favs-btn")
 const closeEditsBtn = document.getElementById("close-edits-btn")
@@ -12,7 +14,6 @@ const deletePortBtn = document.getElementById("deletePortBtn")
 
 addEventListener('DOMContentLoaded', () => {
     retrievePorts()
-
 
     if(openCreditsBtn) {
         openCreditsBtn.addEventListener("click", () => {
@@ -285,8 +286,18 @@ function uploadBackup() {
     console.log("upload backup")
 }
 
-function save() {
-    console.log("save")
+async function save() {
+    let db = await openDB()
+    const transaction = db.transaction(["pg1"], "readonly");
+    const objectStore = transaction.objectStore("pg1");
+
+    let req = objectStore.getAll()
+
+    req.onsuccess = (event) => {
+        let data = JSON.stringify(event.target.result)
+        const blob = new Blob([data], { type: "application/json" });
+        saveBtn.href = URL.createObjectURL(blob)
+    }
 }
 
 export default {openDB}
