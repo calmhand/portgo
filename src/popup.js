@@ -1,5 +1,52 @@
 let favoritesVisible = false
 
+// addEventListener('DOMContentLoaded', function() {
+//     const form = document.getElementById('edit-port-form');
+
+//     form.addEventListener('submit', (event) => {
+//         event.preventDefault(); // Prevents the default form submission
+//         updatePort();
+//     });
+// })
+
+addEventListener('DOMContentLoaded', () => {
+    const settingsBtn = document.getElementById("settings-btn")
+    const saveBtn = document.getElementById("save-btn")
+    const uploadBtn = document.getElementById("upload-btn")
+    const showFavsBtn = document.getElementById("show-favs-btn")
+    const closeEditsBtn = document.getElementById("close-edits-btn")
+    retrievePorts()
+
+    if (closeEditsBtn) {
+        closeEditsBtn.addEventListener("click", () => {
+            let editContainer = document.getElementById("edit-container")
+            editContainer.style.display = "none";
+        })
+    }
+    
+    if (settingsBtn) {
+        settingsBtn.addEventListener("click", showSettings);
+    }
+    if (saveBtn) {
+        saveBtn.addEventListener("click", save);
+    }
+    if (uploadBtn) {
+        uploadBtn.addEventListener("click", uploadBackup);
+    }
+    if (showFavsBtn) {
+        showFavsBtn.addEventListener("click", () => {
+            if (favoritesVisible) {
+                favoritesVisible = false
+                window.location.reload()
+            } else {
+                favoritesVisible = true
+                showFavorites()
+            }
+        });
+    }
+});
+
+
 export async function openDB() {
     return new Promise((resolve, reject) => {
         const request = window.indexedDB.open("portGoDB");
@@ -38,7 +85,6 @@ async function retrievePorts() {
 }
 
 function populate(ports) {
-
     let portContainer = document.getElementById("port-container")
     if (portContainer) {
         while (portContainer.firstChild) {
@@ -111,7 +157,7 @@ function createBtn (path, alt, port) {
                 }
             } else {
                 let req = transaction.get(port.id)
-                
+
                 req.onsuccess = (event) => {
                     let payload = event.target.result
                     payload.bookmarked = true
@@ -120,7 +166,6 @@ function createBtn (path, alt, port) {
                     update.onsuccess = (event) => {
                         document.getElementById(alt + "-" + port.id).src = "./assets/icons/star-selected.png"
                         window.location.reload()
-                        console.log(event.target.result)
                     }
                 }
 
@@ -145,6 +190,13 @@ function createBtn (path, alt, port) {
             document.getElementById('edit-portNumber').value = port.port
             document.getElementById('edit-portName').value = port.alias
             document.getElementById('edit-portDescription').value = port.description
+
+            const form = document.getElementById('edit-port-form');
+
+            form.addEventListener('submit', (event) => {
+                event.preventDefault(); // Prevents the default form submission
+                updatePort(port.id);
+            });
         })
     }
 
@@ -156,6 +208,37 @@ function createBtn (path, alt, port) {
 
     button.appendChild(img);
     return button;
+}
+
+async function updatePort(id) {
+        let editUrl = document.getElementById('edit-url').value
+        let editPortNum = document.getElementById('edit-portNumber').value
+        let editPortName = document.getElementById('edit-portName').value
+        let editDesc = document.getElementById('edit-portDescription').value
+
+        let db = await openDB()
+        let transaction = db.transaction(["pg1"], "readwrite").objectStore("pg1")
+
+        let req = transaction.get(id)
+        req.onsuccess = (event) => {
+            
+            let payload = event.target.result
+
+            payload.address = editUrl
+            payload.url = editUrl + ":" + editPortNum
+            payload.port = editPortNum
+            payload.alias = editPortName
+            payload.description = editDesc
+
+            let update = transaction.put(payload)
+            update.onsuccess = (event) => {
+                window.location.reload()
+            }
+
+            update.onerror = (event) => {
+                console.error(event.target.result);
+            }
+        }
 }
 
 function showSettings() {
@@ -192,42 +275,5 @@ function uploadBackup() {
 function save() {
     console.log("save")
 }
-
-addEventListener('DOMContentLoaded', () => {
-    const settingsBtn = document.getElementById("settings-btn")
-    const saveBtn = document.getElementById("save-btn")
-    const uploadBtn = document.getElementById("upload-btn")
-    const showFavsBtn = document.getElementById("show-favs-btn")
-    const closeEditsBtn = document.getElementById("close-edits-btn")
-    retrievePorts()
-
-    if (closeEditsBtn) {
-        closeEditsBtn.addEventListener("click", () => {
-            let editContainer = document.getElementById("edit-container")
-            editContainer.style.display = "none";
-        })
-    }
-    
-    if (settingsBtn) {
-        settingsBtn.addEventListener("click", showSettings);
-    }
-    if (saveBtn) {
-        saveBtn.addEventListener("click", save);
-    }
-    if (uploadBtn) {
-        uploadBtn.addEventListener("click", uploadBackup);
-    }
-    if (showFavsBtn) {
-        showFavsBtn.addEventListener("click", () => {
-            if (favoritesVisible) {
-                favoritesVisible = false
-                window.location.reload()
-            } else {
-                favoritesVisible = true
-                showFavorites()
-            }
-        });
-    }
-});
 
 export default {openDB}
