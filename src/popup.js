@@ -1,25 +1,16 @@
 let favoritesVisible = false
-
-// addEventListener('DOMContentLoaded', function() {
-//     const form = document.getElementById('edit-port-form');
-
-//     form.addEventListener('submit', (event) => {
-//         event.preventDefault(); // Prevents the default form submission
-//         updatePort();
-//     });
-// })
+let editContainer = document.getElementById("edit-container")
+const settingsBtn = document.getElementById("settings-btn")
+const saveBtn = document.getElementById("save-btn")
+const uploadBtn = document.getElementById("upload-btn")
+const showFavsBtn = document.getElementById("show-favs-btn")
+const closeEditsBtn = document.getElementById("close-edits-btn")
 
 addEventListener('DOMContentLoaded', () => {
-    const settingsBtn = document.getElementById("settings-btn")
-    const saveBtn = document.getElementById("save-btn")
-    const uploadBtn = document.getElementById("upload-btn")
-    const showFavsBtn = document.getElementById("show-favs-btn")
-    const closeEditsBtn = document.getElementById("close-edits-btn")
     retrievePorts()
 
     if (closeEditsBtn) {
         closeEditsBtn.addEventListener("click", () => {
-            let editContainer = document.getElementById("edit-container")
             editContainer.style.display = "none";
         })
     }
@@ -192,9 +183,8 @@ function createBtn (path, alt, port) {
             document.getElementById('edit-portDescription').value = port.description
 
             const form = document.getElementById('edit-port-form');
-
             form.addEventListener('submit', (event) => {
-                event.preventDefault(); // Prevents the default form submission
+                event.preventDefault();
                 updatePort(port.id);
             });
         })
