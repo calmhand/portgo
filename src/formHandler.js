@@ -26,6 +26,7 @@ async function submit() {
         "port": portNum,
         "alias": portName,
         "description": desc,
+        "bookmarked": false
     }
     
     const req = objectStore.add(payload)

@@ -36,10 +36,59 @@ async function retrievePorts() {
 }
 
 function populate(ports) {
-    const createBtn = (path, alt, id) => {
+    const createBtn = (path, alt, port) => {
         const button = document.createElement('button');
         button.className = 'p-4';
-        button.id = id
+        button.id = alt + "-" + port.id
+        
+        if (alt === "Bookmark") {
+            button.addEventListener("click", async () => {
+                let db = await openDB()
+                let transaction = db.transaction(["pg1"], "readwrite").objectStore("pg1")
+ 
+                if (port.bookmarked) {
+                    let req = transaction.get(port.id)
+                    req.onsuccess = (event) => {
+                        let payload = event.target.result
+                        payload.bookmarked = false
+
+                        let update = transaction.put(payload)
+                        update.onsuccess = (event) => {
+                            document.getElementById(alt + "-" + port.id).src = "./assets/icons/star.png"
+                            window.location.reload()
+                            console.log(event.target.result)
+                        }
+                    }
+                } else {
+                    let req = transaction.get(port.id)
+                    req.onsuccess = (event) => {
+                        let payload = event.target.result
+                        payload.bookmarked = true
+
+                        let update = transaction.put(payload)
+                        update.onsuccess = (event) => {
+                            document.getElementById(alt + "-" + port.id).src = "./assets/icons/star-selected.png"
+                            window.location.reload()
+                            console.log(event.target.result)
+                        }
+                    }
+
+                    req.onerror = (event) => {
+                        console.error(event.target.result)
+                    }
+                }
+            })
+        }
+
+        if (alt === "Go") {
+            button.addEventListener("click", () => {
+                window.open(port.url, "_blank").focus() 
+            })
+        }
+        
+        if (alt === "Edit") {
+            button.addEventListener("click", () => {})
+        }
 
         const img = document.createElement('img');
         img.src = path;
@@ -52,6 +101,7 @@ function populate(ports) {
     }
 
     for (let port of ports) {
+        console.log(port)
         let container = document.createElement("div")
         container.className = "flex flex-col border-2 rounded-lg border-black"
 
@@ -70,16 +120,23 @@ function populate(ports) {
 
         let btnContainer = document.createElement("div")
         btnContainer.className = "flex items-center justify-between gap-4 border-t-2 border-black"
-        btnContainer.appendChild(createBtn("./assets/icons/star.png", "Bookmark", "bookmark-" + port.id))
-        btnContainer.appendChild(createBtn("./assets/icons/play.png", "Go", "go-" + port.id))
-        btnContainer.appendChild(createBtn("./assets/icons/edit.png", "Edit", "edit-" + port.id))
+        if (port.bookmarked) {
+            btnContainer.appendChild(createBtn("./assets/icons/star-selected.png", "Bookmark", port))
+        } else {
+            btnContainer.appendChild(createBtn("./assets/icons/star.png", "Bookmark", port))
+        }
+        btnContainer.appendChild(createBtn("./assets/icons/play.png", "Go", port))
+        btnContainer.appendChild(createBtn("./assets/icons/edit.png", "Edit", port))
 
         container.appendChild(nameContainer)
         container.appendChild(btnContainer)
 
         document.getElementById("port-container").appendChild(container)
     } 
+}
 
+function go() {
+    
 }
 
 function showSettings() {
