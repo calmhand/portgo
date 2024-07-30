@@ -8,6 +8,5 @@
         "default_title": "PortGo",
         "default_popup": "popup.html",
         "default_icon": "./assets/icons/portgo-128.png"
-    },
-    "permissions": ["activeTab", "storage"]
+    }
 }
